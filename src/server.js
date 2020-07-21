@@ -5,14 +5,14 @@ const listEndpoints = require("express-list-endpoints")
 const mongoose = require("mongoose")
 
 
-const usersRouter = require("./Models/users")
-
 const {
   notFoundHandler,
   badRequestHandler,
   genericErrorHandler,
 } = require("./handleError")
-
+const profilesRouter = require("./models/profiles")
+const experiencesRouter = require("./models/experiences")
+const postsRouter= require("./Models/post")
 const server = express()
 
 const port = process.env.PORT
@@ -24,8 +24,9 @@ server.use(express.json())
 server.use(cors())
 
 
-server.use("/users", usersRouter)
-
+server.use("/profiles", profilesRouter)
+server.use("/posts", postsRouter)
+server.use("/experiences", experiencesRouter)
 // ERROR HANDLERS MIDDLEWARES
 
 server.use(badRequestHandler)

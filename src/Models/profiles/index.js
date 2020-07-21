@@ -1,23 +1,23 @@
 const express = require("express")
 
-const UserSchema = require("./schema")
+const profileSchema = require("./schema")
 
-const usersRouter = express.Router()
+const profilesRouter = express.Router()
 
-usersRouter.get("/", async (req, res, next) => {
+profilesRouter.get("/", async (req, res, next) => {
   try {
-    const users = await UserSchema.find(req.query)
-    res.send(users)
+    const profiles = await profileSchema.find(req.query)
+    res.send(profiles)
   } catch (error) {
     next(error)
   }
 })
 
-usersRouter.get("/:id", async (req, res, next) => {
+profilesRouter.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id
-    const user = await UserSchema.findById(id)
-    if (user) {
+    const profile = await profileSchema.findById(id)
+    if (profile) {
       res.send(user)
     } else {
       const error = new Error(error.httpStatusCode = 404)
@@ -30,10 +30,10 @@ usersRouter.get("/:id", async (req, res, next) => {
   }
 })
 
-usersRouter.post("/", async (req, res, next) => {
+profilesRouter.post("/", async (req, res, next) => {
   try {
-    const newUser = new UserSchema(req.body)
-    const { _id } = await newUser.save()
+    const newprofile = new profileSchema(req.body)
+    const { _id } = await newprofile.save()
 
     res.status(201).send(_id)
   } catch (error) {
@@ -41,11 +41,11 @@ usersRouter.post("/", async (req, res, next) => {
   }
 })
 
-usersRouter.put("/:id", async (req, res, next) => {
+profilesRouter.put("/:id", async (req, res, next) => {
   try {
-    const user = await UserSchema.findByIdAndUpdate(req.params.id, req.body)
-    console.log(user)
-    if (user) {
+    const profile= await profileSchema.findByIdAndUpdate(req.params.id, req.body)
+    console.log(profile)
+    if (profile) {
       res.send("Ok")
     } else {
       const error = new Error(`User with id ${req.params.id} not found`)
@@ -57,10 +57,10 @@ usersRouter.put("/:id", async (req, res, next) => {
   }
 })
 
-usersRouter.delete("/:id", async (req, res, next) => {
+profilesRouter.delete("/:id", async (req, res, next) => {
   try {
-    const user = await UserSchema.findByIdAndDelete(req.params.id)
-    if (user) {
+    const profile = await profileSchema.findByIdAndDelete(req.params.id)
+    if (profile) {
       res.send("Deleted")
     } else {
       const error = new Error(`User with id ${req.params.id} not found`)
@@ -72,4 +72,4 @@ usersRouter.delete("/:id", async (req, res, next) => {
   }
 })
 
-module.exports = usersRouter
+module.exports = profilesRouter
